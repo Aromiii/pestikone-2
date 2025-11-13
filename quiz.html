@@ -21,13 +21,13 @@
 <hr>
 <h2 style="text-align:center;" id="question-number">Loading...</h2>
 <p class="question" id="question-text"></p>
-<button class="button stronglyAgree" onclick="next_question( 1.0)">Strongly Agree</button> <br>
-<button class="button agree" onclick="next_question( 0.5)">Agree</button> <br>
-<button class="button neutral" onclick="next_question( 0.0)">Neutral/Unsure</button> <br>
-<button class="button disagree" onclick="next_question(-0.5)">Disagree</button> <br>
-<button class="button stronglyDisagree" onclick="next_question(-1.0)">Strongly Disagree</button> <br>
-<button class="small_button" onclick="prev_question()" id="back_button">Back</button>
-<button class="small_button_off" id="back_button_off">Back</button><br>
+<button class="button stronglyAgree" onclick="next_question( 1.0)">Vahvasti samaa mieltä</button> <br>
+<button class="button agree" onclick="next_question( 0.5)">Samaa mieltä</button> <br>
+<button class="button neutral" onclick="next_question( 0.0)">Neutraali tai epävarma</button> <br>
+<button class="button disagree" onclick="next_question(-0.5)">Eri mieltä</button> <br>
+<button class="button stronglyDisagree" onclick="next_question(-1.0)">Vahvasti eri mieltä</button> <br>
+<button class="small_button" onclick="prev_question()" id="back_button">Takaisin</button>
+<button class="small_button_off" id="back_button_off">Takaisin</button><br>
 
 <!-- Website visit statistics - no personal information is collected! -->
 <script type="text/javascript">
@@ -48,19 +48,27 @@ stats"></a></div></noscript>
 
 <!-- JavaScript for the test itself -->
 <script>
-    var max_econ, max_dipl, max_govt, max_scty; // Max possible scores
-    max_econ = max_dipl = max_govt = max_scty = 0;
-    let econ_array = new Array(questions.length);
-    let dipl_array = new Array(questions.length);
-    let govt_array = new Array(questions.length);
-    let scty_array = new Array(questions.length);
+    var max_myynti, max_palvelu, max_ohjelma, max_some, max_huolto, max_tekniikka, max_liikenne, max_elintarvike; // Max possible scores
+    max_myynti = max_palvelu = max_ohjelma = max_some = max_huolto = max_tekniikka = max_liikenne = max_elintarvike = 0;
+    let myynti_array = new Array(questions.length);
+    let palvelu_array = new Array(questions.length);
+    let ohjelma_array = new Array(questions.length);
+    let some_array = new Array(questions.length);
+    let huolto_array = new Array(questions.length);
+    let tekniikka_array = new Array(questions.length);
+    let liikenne_array = new Array(questions.length);
+    let elintarvike_array = new Array(questions.length);
     var qn = 0; // Question number
     init_question();
     for (var i = 0; i < questions.length; i++) {
-        max_econ += Math.abs(questions[i].effect.econ)
-        max_dipl += Math.abs(questions[i].effect.dipl)
-        max_govt += Math.abs(questions[i].effect.govt)
-        max_scty += Math.abs(questions[i].effect.scty)
+        max_myynti += Math.abs(questions[i].effect.myynti)
+        max_palvelu += Math.abs(questions[i].effect.palvelu)
+        max_ohjelma += Math.abs(questions[i].effect.ohjelma)
+        max_some += Math.abs(questions[i].effect.some)
+        max_huolto += Math.abs(questions[i].effect.huolto)
+        max_tekniikka += Math.abs(questions[i].effect.tekniikka)
+        max_liikenne += Math.abs(questions[i].effect.liikenne)
+        max_elintarvike += Math.abs(questions[i].effect.elintarvike)
     }
     function init_question() {
         document.getElementById("question-text").innerHTML = questions[qn].question;
@@ -76,10 +84,15 @@ stats"></a></div></noscript>
     }
 
     function next_question(mult) {
-        econ_array[qn] = mult*questions[qn].effect.econ
-        dipl_array[qn] = mult*questions[qn].effect.dipl
-        govt_array[qn] = mult*questions[qn].effect.govt
-        scty_array[qn] = mult*questions[qn].effect.scty
+        myynti_array[qn] = mult*questions[qn].effect.myynti
+        palvelu_array[qn] = mult*questions[qn].effect.palvelu
+        ohjelma_array[qn] = mult*questions[qn].effect.ohjelma
+        some_array[qn] = mult*questions[qn].effect.some
+        huolto_array[qn] = mult*questions[qn].effect.huolto
+        tekniikka_array[qn] = mult*questions[qn].effect.tekniikka
+        liikenne_array[qn] = mult*questions[qn].effect.liikenne
+        elintarvike_array[qn] = mult*questions[qn].effect.elintarvike
+
         qn++;
         if (qn < questions.length) {
             init_question();
@@ -101,15 +114,24 @@ stats"></a></div></noscript>
     }
 
     function results() {
-        let final_econ = econ_array.reduce((a, b) => a + b, 0)
-        let final_dipl = dipl_array.reduce((a, b) => a + b, 0)
-        let final_govt = govt_array.reduce((a, b) => a + b, 0)
-        let final_scty = scty_array.reduce((a, b) => a + b, 0)
+        let final_myynti = myynti_array.reduce((a, b) => a + b, 0)
+        let final_palvelu = palvelu_array.reduce((a, b) => a + b, 0)
+        let final_ohjelma = ohjelma_array.reduce((a, b) => a + b, 0)
+        let final_some = some_array.reduce((a, b) => a + b, 0)
+        let final_huolto = huolto_array.reduce((a, b) => a + b, 0)
+        let final_tekniikka = tekniikka_array.reduce((a, b) => a + b, 0)
+        let final_liikenne = liikenne_array.reduce((a, b) => a + b, 0)
+        let final_elintarvike = elintarvike_array.reduce((a, b) => a + b, 0)
+
         location.href = `results.html`
-            + `?e=${calc_score(final_econ,max_econ)}`
-            + `&d=${calc_score(final_dipl,max_dipl)}`
-            + `&g=${calc_score(final_govt,max_govt)}`
-            + `&s=${calc_score(final_scty,max_scty)}`
+            + `?m=${calc_score(final_myynti,max_myynti)}`
+            + `&p=${calc_score(final_palvelu,max_palvelu)}`
+            + `&o=${calc_score(final_ohjelma,max_ohjelma)}`
+            + `&s=${calc_score(final_some,max_some)}`
+            + `&h=${calc_score(final_huolto,max_huolto)}`
+            + `&t=${calc_score(final_tekniikka,max_tekniikka)}`
+            + `&l=${calc_score(final_liikenne,max_liikenne)}`
+            + `&e=${calc_score(final_elintarvike,max_elintarvike)}`
     }
 </script>
 </body>

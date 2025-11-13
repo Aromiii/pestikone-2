@@ -81,7 +81,16 @@ stats"></a></div></noscript>
            return(NaN);
     }
 
-    function setBarValue(name, value) {
+    console.log("Myynti: " + getQueryVariable("m"))
+    console.log("Palvelu: " + getQueryVariable("p"))
+    console.log("Ohjelma: " + getQueryVariable("o"))
+    console.log("Some: " + getQueryVariable("s"))
+    console.log("Huolto: " + getQueryVariable("h"))
+    console.log("Tekniikka: " + getQueryVariable("t"))
+    console.log("Liikenne: " + getQueryVariable("l"))
+    console.log("Elintarvike: " + getQueryVariable("e"))
+
+    /*function setBarValue(name, value) {
         innerel = document.getElementById(name)
         outerel = document.getElementById("bar-" + name)
         outerel.style.width = (value + "%")
@@ -228,6 +237,6 @@ stats"></a></div></noscript>
         ctx.fillText("Societal Axis: " + document.getElementById("society-label").innerHTML, 400, 535)
 
         document.getElementById("banner").src = c.toDataURL();
-    }
+    }*/
     </script>
 </body>
